@@ -1,5 +1,14 @@
-import styled from 'styled-components'
+import styled, { keyframes } from 'styled-components'
 import { themeGet } from 'styled-system'
+import { transform, boxShadow } from './helpers/style'
+
+const hover = props => keyframes`
+  0% { text-shadow: 3px -1px 0 ${themeGet('colors.secondary')(props)}; }
+  25% { text-shadow: 0px -3px 0 ${themeGet('colors.secondary')(props)}; }
+  50% { text-shadow: -3px -1px 0 ${themeGet('colors.secondary')(props)}; }
+  75% { text-shadow: 0px -3px 0 ${themeGet('colors.secondary')(props)}; }
+  100% { text-shadow: 3px -1px 0 ${themeGet('colors.secondary')(props)}; }
+`
 
 const Button = styled.button`
   cursor: pointer;
@@ -16,17 +25,16 @@ const Button = styled.button`
   font-weight: 800;
 
   color: ${themeGet('colors.bg')};
-  box-shadow: 24px 24px 0px rgba(15, 0, 50, 0.15);
-
+  ${props => boxShadow({ boxShadow: themeGet('shadows')(props) })};
   transition: text-shadow 0.16s ease, box-shadow 0.2s ease, transform 0.2s ease;
 
   &:hover {
-    text-shadow: 3px -1px 0 ${themeGet('colors.secondary')};
+    animation: ${hover} 60s linear infinite;
   }
 
   &:active {
-    transform: translate(22px, 22px);
-    box-shadow: unset;
+    ${props => transform({ transform: themeGet('offsets')(props) })};
+    box-shadow: 1px 1px 0px ${themeGet('colors.shadow')};
   }
 `
 

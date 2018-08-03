@@ -1,10 +1,26 @@
 import React from 'react'
-import styled, { withTheme } from 'styled-components'
+import styled from 'styled-components'
+import chroma from 'chroma-js'
 import { responsiveStyle, themeGet } from 'styled-system'
 import Size from './Size'
 import Scroll from './Scroll'
 import { injectVars } from '../utils/injectVars'
-import { fontBorder } from './helpers/border'
+// import { fontBorder } from './helpers/border'
+
+const words = chroma
+  .scale(['white', '#6624FF', '#1C1B1F'])
+  .mode('hsl')
+  .domain([0, 300, 2000])
+
+const wordsBorder = chroma
+  .scale(['#6624FF', '#6624FF', '#1C1B1F'])
+  .mode('hsl')
+  .domain([0, 300, 2000])
+
+const bg = chroma
+  .scale(['white', '#FF3357', '#262626'])
+  .mode('hsl')
+  .domain([0, 2000])
 
 const TEXT_WIDTH_COOF = {
   JS: 1.52,
@@ -22,9 +38,14 @@ const BigRow = styled.div`
 
   transform: translateX(var(--offset));
 
-  color: ${themeGet('colors.primary', 'black')};
+  color: var(--bdcolor);
 
-  ${fontBorder};
+  -webkit-text-fill-color: var(--color);
+  -webkit-text-stroke: 1px var(--bdcolor);
+
+  @media (min-width: 780px) and (min-height: 500px) {
+    -webkit-text-stroke: 2px var(--bdcolor);
+  }
 
   &:after {
     content: var(--text);
@@ -56,8 +77,8 @@ const SmallRow = styled.div`
 
 const Row = ({ text, children, vars }) => (
   <Block style={injectVars(vars)}>
-    {text && <SmallRow>{text}</SmallRow>}
     <BigRow>{children}</BigRow>
+    {text && <SmallRow>{text}</SmallRow>}
   </Block>
 )
 
@@ -66,7 +87,7 @@ const Fullscreen = styled.div`
   transform: translateY(var(--offsetx));
 
   overflow: hidden;
-  background-color: ${themeGet('colors.bg', 'white')};
+  background-color: var(--bgcolor);
 
   width: 100%;
   z-index: -1;
@@ -98,10 +119,10 @@ const Number = styled.div`
   font-size: calc(var(--fontsize) * (1.25 + 0.13) * 2);
   line-height: calc(var(--fontsize) * 1.12 * 2);
 
-  ${textShadow};
+  ${props => textShadow({ textShadow: themeGet('shadows')(props) })};
 `
 
-const BgWithLogo = ({ children, theme }) => (
+const BgWithLogo = ({ children }) => (
   <Size>
     {size => {
       const fontSize = Math.round(
@@ -116,6 +137,9 @@ const BgWithLogo = ({ children, theme }) => (
           {({ scroll }) => (
             <div
               style={injectVars({
+                color: words(scroll).hex(),
+                bdcolor: wordsBorder(scroll).hex(),
+                bgcolor: bg(scroll).hex(),
                 numberoffsetx: size.height / 2 - fontSize + 'px',
                 numberoffsety:
                   size.width / 2 -
@@ -169,9 +193,7 @@ const BgWithLogo = ({ children, theme }) => (
                 </Center>
               </Fullscreen>
 
-              <Number textShadow={themeGet('shadows')({ theme })}>
-                {themeGet('shadow')({ theme })}7
-              </Number>
+              <Number>7</Number>
 
               <div style={{ paddingBottom: '120vh' }} />
 
@@ -184,4 +206,4 @@ const BgWithLogo = ({ children, theme }) => (
   </Size>
 )
 
-export default withTheme(BgWithLogo)
+export default BgWithLogo

@@ -11,17 +11,24 @@ const theme = {
   colors: {
     primary: '#6624FF',
     secondary: '#FF3357',
-    tertiary: 'rgba(101, 37, 255, 0.2);',
-    // tertiary: '#F6F7FD',
+    tertiary: '#F6F7FD',
 
     font: '#262626',
-    bg: '#fff'
+    bg: '#fff',
+
+    shadow: 'rgba(15, 0, 50, 0.1)'
   },
 
   shadows: [
-    '8px 8px 0px rgba(15, 0, 50, 0.15)',
-    '16px 16px 0px rgba(15, 0, 50, 0.15)',
-    '24px 24px 0px rgba(15, 0, 50, 0.15)'
+    '8px 8px 0px rgba(15, 0, 50, 0.1)',
+    '16px 16px 0px rgba(15, 0, 50, 0.1)',
+    '24px 24px 0px rgba(15, 0, 50, 0.1)'
+  ],
+
+  offsets: [
+    'translate(8px, 8px)',
+    'translate(16px, 16px)',
+    'translate(24px, 24px)'
   ]
 }
 
@@ -31,10 +38,10 @@ const App = () => (
       <Card>
         <Title>cкоро</Title>
 
-        <Box py={182} />
+        <Box py={[96, 96, 96, 192]} />
       </Card>
 
-      <Flex w='100%' py='90vh' justifyContent='center'>
+      <Flex w='100%' py='50vh' justifyContent='center'>
         <Button>Стань спикером</Button>
       </Flex>
     </BgWithLogo>

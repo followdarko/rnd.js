@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { space, width, themeGet } from 'styled-system'
 import { border } from './helpers/border'
-import { boxShadow } from './helpers/boxShadow'
+import { boxShadow } from './helpers/style'
 
 const Body = styled.div`
   position: relative;
